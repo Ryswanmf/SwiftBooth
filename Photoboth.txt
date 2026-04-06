@@ -1,0 +1,51 @@
+Buatkan sebuah website photobooth modern menggunakan Next.js (App Router) dan Supabase sebagai backend.
+
+Fitur utama:
+
+1. Akses kamera menggunakan Web API (getUserMedia) atau react-webcam
+2. Menampilkan preview kamera secara real-time
+3. Tombol capture dengan countdown (3 detik)
+4. Mengambil foto (bisa multiple shot seperti photostrip, 3-4 foto)
+5. Menyimpan hasil foto ke canvas
+6. Menambahkan frame photobooth (overlay PNG)
+7. Export hasil akhir menjadi gambar (PNG/JPG)
+8. Download hasil foto
+9. Upload hasil ke Supabase Storage
+10. Generate link publik untuk hasil foto
+
+Teknologi yang digunakan:
+
+* Next.js (App Router)
+* React
+* Tailwind CSS untuk styling
+* Supabase (Auth opsional, Storage wajib)
+* Library tambahan: react-webcam, html2canvas atau canvas API
+
+Struktur:
+
+* Halaman utama: kamera + tombol capture
+* Halaman preview: hasil foto + pilih frame
+* Halaman hasil: download + share
+
+Kebutuhan tambahan:
+
+* UI modern dan clean (mirip photobooth kekinian)
+* Responsif (mobile friendly)
+* Gunakan komponen reusable
+* Gunakan client component untuk akses kamera
+* Pisahkan logic capture, preview, dan upload
+
+Integrasi Supabase:
+
+* Setup Supabase client
+* Upload image ke storage bucket
+* Ambil public URL
+
+Berikan:
+
+* Struktur folder project
+* Kode lengkap tiap komponen utama
+* Cara setup Supabase
+* Cara deploy ke Vercel
+
+Pastikan kode clean, production-ready, dan mudah dipahami.
