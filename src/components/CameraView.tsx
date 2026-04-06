@@ -4,7 +4,7 @@ import React, { useRef, useState, useCallback, useEffect } from 'react';
 import Webcam from 'react-webcam';
 import { useRouter } from 'next/navigation';
 import { usePhotoStore } from '@/hooks/usePhotoStore';
-import { Camera, RefreshCw, CheckCircle2, ArrowRight, RotateCcw, Scan } from 'lucide-react';
+import { Camera, RefreshCw, CheckCircle2, ArrowRight, RotateCcw } from 'lucide-react';
 
 export default function CameraView() {
   const webcamRef = useRef<Webcam>(null);
@@ -18,8 +18,8 @@ export default function CameraView() {
   const maxSlots = selectedFrame?.slots || 4;
 
   const videoConstraints = {
-    width: 1280,
-    height: 720,
+    width: { ideal: 1280 },
+    height: { ideal: 720 },
     facingMode: "user"
   };
 
@@ -64,19 +64,21 @@ export default function CameraView() {
   };
 
   const handleResetAll = () => {
-    setTempPhotos([]);
-    clearPhotos();
-    setSelectedSlot(null);
+    if(confirm("Clear all photos and start over?")) {
+      setTempPhotos([]);
+      clearPhotos();
+      setSelectedSlot(null);
+    }
   };
 
   const nextSlot = tempPhotos.length < maxSlots ? tempPhotos.length : null;
   const activeSlot = selectedSlot !== null ? selectedSlot : nextSlot;
 
   return (
-    <div className="w-full flex flex-col lg:flex-row gap-12 items-start justify-center animate-in fade-in duration-700">
+    <div className="w-full flex flex-col lg:flex-row gap-6 lg:gap-10 items-start justify-center">
       {/* Camera Section */}
-      <div className="flex-1 w-full flex flex-col items-center gap-10">
-        <div className="relative w-full aspect-video rounded-[3rem] overflow-hidden border-[6px] border-white/5 shadow-[0_0_100px_rgba(0,0,0,0.5)] bg-slate-900 group">
+      <div className="flex-1 w-full flex flex-col items-center gap-6 lg:gap-10">
+        <div className="relative w-full aspect-[4/3] md:aspect-video rounded-[2rem] md:rounded-[2.5rem] overflow-hidden border-2 md:border-4 border-white/5 shadow-2xl bg-slate-900 group">
           <Webcam
             audio={false}
             ref={webcamRef}
@@ -86,48 +88,41 @@ export default function CameraView() {
             mirrored={true}
           />
           
-          {/* Viewfinder Corners */}
-          <div className="absolute top-10 left-10 w-16 h-16 border-t-4 border-l-4 border-white/20 rounded-tl-2xl" />
-          <div className="absolute top-10 right-10 w-16 h-16 border-t-4 border-r-4 border-white/20 rounded-tr-2xl" />
-          <div className="absolute bottom-10 left-10 w-16 h-16 border-b-4 border-l-4 border-white/20 rounded-bl-2xl" />
-          <div className="absolute bottom-10 right-10 w-16 h-16 border-b-4 border-r-4 border-white/20 rounded-br-2xl" />
+          {/* Viewfinder Corners - Smaller on mobile */}
+          <div className="absolute top-4 left-4 w-6 h-6 md:top-6 md:left-6 md:w-10 md:h-10 border-t-2 border-l-2 border-white/30 rounded-tl-lg" />
+          <div className="absolute top-4 right-4 w-6 h-6 md:top-6 md:right-6 md:w-10 md:h-10 border-t-2 border-r-2 border-white/30 rounded-tr-lg" />
+          <div className="absolute bottom-4 left-4 w-6 h-6 md:bottom-6 md:left-6 md:w-10 md:h-10 border-b-2 border-l-2 border-white/30 rounded-bl-lg" />
+          <div className="absolute bottom-4 right-4 w-6 h-6 md:bottom-6 md:right-6 md:w-10 md:h-10 border-b-2 border-r-2 border-white/30 rounded-br-lg" />
 
-          {/* Center Scan UI */}
-          {!isCapturing && (
-            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-               <Scan className="w-20 h-20 text-white/10 stroke-[1]" />
-            </div>
-          )}
-
-          {/* Overlay Countdown */}
+          {/* Countdown Overlay */}
           {countdown > 0 && (
-            <div className="absolute inset-0 flex items-center justify-center bg-blue-600/20 backdrop-blur-md z-10">
-              <span className="text-[14rem] font-black italic text-white drop-shadow-[0_0_50px_rgba(255,255,255,0.5)] animate-pulse">
+            <div className="absolute inset-0 flex items-center justify-center bg-blue-600/20 backdrop-blur-sm z-10">
+              <span className="text-8xl md:text-[10rem] font-black italic text-white animate-pulse">
                 {countdown}
               </span>
             </div>
           )}
 
-          {/* Flash Effect */}
           {isCapturing && countdown === 0 && (
             <div className="absolute inset-0 bg-white animate-flash pointer-events-none z-20" />
           )}
         </div>
 
-        <div className="flex flex-wrap justify-center gap-6">
+        {/* Primary Action Button */}
+        <div className="w-full flex flex-col items-center gap-4 px-4 md:px-0">
           {activeSlot !== null ? (
             <button
               onClick={startCountdown}
               disabled={isCapturing}
-              className={`group flex items-center gap-4 px-12 py-7 rounded-full text-2xl font-black transition-all transform hover:scale-105 active:scale-95 ${
+              className={`w-full md:w-auto group flex items-center justify-center gap-3 px-10 py-5 rounded-2xl md:rounded-full text-lg font-black transition-all transform active:scale-95 ${
                 isCapturing 
                 ? 'bg-slate-800 text-slate-500 cursor-not-allowed' 
-                : 'bg-white text-slate-950 hover:shadow-[0_0_40px_rgba(255,255,255,0.3)] shadow-2xl'
+                : 'bg-white text-slate-950 shadow-2xl shadow-white/10'
               }`}
             >
-              {isCapturing ? <RefreshCw className="w-7 h-7 animate-spin" /> : <Camera className="w-7 h-7 group-hover:rotate-12 transition-transform" />}
+              {isCapturing ? <RefreshCw className="w-5 h-5 animate-spin" /> : <Camera className="w-5 h-5" />}
               {isCapturing 
-                ? `FOCUSING...` 
+                ? `READY...` 
                 : selectedSlot !== null 
                   ? `RETAKE SHOT ${selectedSlot + 1}` 
                   : `TAKE SHOT ${tempPhotos.length + 1}`}
@@ -135,66 +130,61 @@ export default function CameraView() {
           ) : (
             <button
               onClick={handleDone}
-              className="group flex items-center gap-4 px-12 py-7 rounded-full text-2xl font-black bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:shadow-[0_0_50px_rgba(59,130,246,0.4)] shadow-2xl transition-all transform hover:scale-105 active:scale-95"
+              className="w-full md:w-auto group flex items-center justify-center gap-3 px-10 py-5 rounded-2xl md:rounded-full text-lg font-black bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-xl active:scale-95 transition-all"
             >
-              <CheckCircle2 className="w-7 h-7" />
+              <CheckCircle2 className="w-5 h-5" />
               FINALIZE SESSION
-              <ArrowRight className="w-7 h-7 group-hover:translate-x-2 transition-transform" />
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </button>
           )}
 
           {tempPhotos.length > 0 && !isCapturing && (
             <button
               onClick={handleResetAll}
-              className="px-8 py-7 rounded-full font-black text-slate-500 hover:text-pink-500 transition-colors uppercase tracking-widest text-xs"
+              className="px-6 py-2 font-black text-slate-500 hover:text-red-400 transition-colors uppercase tracking-[0.2em] text-[9px]"
             >
-              Clear Session
+              Start Over
             </button>
           )}
         </div>
       </div>
 
-      {/* Modern Preview Strip Section */}
-      <div className="w-full lg:w-80 flex flex-col gap-6">
-        <div className="flex items-center justify-between px-2">
-          <h3 className="text-xs font-black uppercase tracking-[0.3em] text-slate-500">Strip Buffer</h3>
-          <span className="text-[10px] font-bold text-blue-500 bg-blue-500/10 px-3 py-1 rounded-full">{tempPhotos.length}/{maxSlots}</span>
+      {/* Strip Buffer - Scrollable on mobile, Vertical on Desktop */}
+      <div className="w-full lg:w-60 flex flex-col gap-3 px-4 md:px-0">
+        <div className="flex items-center justify-between px-1">
+          <h3 className="text-[9px] font-black uppercase tracking-[0.3em] text-slate-600 italic">Strip Buffer</h3>
+          <span className="text-[8px] font-bold text-blue-500 bg-blue-500/10 px-2 py-0.5 rounded-full">{tempPhotos.length}/{maxSlots}</span>
         </div>
         
-        <div className={`glass p-5 rounded-[2.5rem] grid gap-4 ${maxSlots === 6 ? 'grid-cols-2' : 'grid-cols-1'}`}>
+        {/* Responsive Grid Container */}
+        <div className="flex lg:grid lg:grid-cols-1 overflow-x-auto lg:overflow-visible gap-3 pb-4 lg:pb-0 scrollbar-hide">
           {Array.from({ length: maxSlots }).map((_, index) => (
             <div 
               key={index} 
               onClick={() => !isCapturing && tempPhotos[index] && setSelectedSlot(index === selectedSlot ? null : index)}
-              className={`relative aspect-[4/3] rounded-2xl overflow-hidden border-2 transition-all duration-500 cursor-pointer group ${
+              className={`relative flex-shrink-0 w-32 md:w-40 lg:w-full aspect-[4/3] rounded-2xl overflow-hidden border-2 transition-all duration-300 cursor-pointer group ${
                 selectedSlot === index 
-                ? 'border-blue-500 ring-4 ring-blue-500/20 scale-105 z-10' 
+                ? 'border-blue-500 ring-2 ring-blue-500/20 scale-105 z-10' 
                 : tempPhotos[index] 
-                  ? 'border-white/10 bg-slate-900 hover:border-white/40' 
-                  : 'border-dashed border-white/5 bg-white/5 hover:bg-white/10'
+                  ? 'border-white/10 bg-slate-900' 
+                  : 'border-dashed border-white/5 bg-white/[0.02]'
               }`}
             >
               {tempPhotos[index] ? (
                 <>
-                  <img src={tempPhotos[index]} alt={`Shot ${index + 1}`} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-                  <div className={`absolute inset-0 bg-blue-600/60 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-all ${selectedSlot === index ? 'opacity-100' : ''}`}>
-                    <RotateCcw className="w-8 h-8 text-white mb-2" />
-                    <span className="text-[8px] font-black uppercase tracking-widest text-white">Retake</span>
+                  <img src={tempPhotos[index]} alt="" className="w-full h-full object-cover mirror" />
+                  <div className={`absolute inset-0 bg-blue-600/40 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-all ${selectedSlot === index ? 'opacity-100' : ''}`}>
+                    <RotateCcw className="w-5 h-5 text-white mb-1" />
+                    <span className="text-[6px] font-black uppercase text-white tracking-widest">Retake</span>
                   </div>
                 </>
               ) : (
-                <div className="absolute inset-0 flex items-center justify-center text-[10px] font-black text-slate-800 uppercase italic">
+                <div className="absolute inset-0 flex items-center justify-center text-[8px] font-black text-slate-800 uppercase italic">
                   Slot {index + 1}
                 </div>
               )}
             </div>
           ))}
-        </div>
-        
-        <div className="glass p-6 rounded-3xl text-center">
-            <p className="text-[9px] font-bold text-slate-500 leading-relaxed uppercase tracking-tighter">
-              Click any photo to retake. <br /> Press finalize when you're happy.
-            </p>
         </div>
       </div>
     </div>
