@@ -8,6 +8,8 @@ interface PhotoContextType {
   clearPhotos: () => void;
   selectedFrame: any;
   setSelectedFrame: (frame: any) => void;
+  selectedFilter: string;
+  setSelectedFilter: (filter: string) => void;
 }
 
 const PhotoContext = createContext<PhotoContextType | undefined>(undefined);
@@ -15,14 +17,19 @@ const PhotoContext = createContext<PhotoContextType | undefined>(undefined);
 export function PhotoProvider({ children }: { children: ReactNode }) {
   const [photos, setPhotos] = useState<string[]>([]);
   const [selectedFrame, setSelectedFrame] = useState<any>(null);
+  const [selectedFilter, setSelectedFilter] = useState<string>('none');
 
   const clearPhotos = () => {
     setPhotos([]);
     setSelectedFrame(null);
+    setSelectedFilter('none');
   };
 
   return (
-    <PhotoContext.Provider value={{ photos, setPhotos, clearPhotos, selectedFrame, setSelectedFrame }}>
+    <PhotoContext.Provider value={{ 
+      photos, setPhotos, clearPhotos, selectedFrame, setSelectedFrame,
+      selectedFilter, setSelectedFilter 
+    }}>
       {children}
     </PhotoContext.Provider>
   );

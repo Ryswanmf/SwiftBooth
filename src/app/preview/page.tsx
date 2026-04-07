@@ -6,8 +6,17 @@ import { useRouter } from 'next/navigation';
 import { ChevronLeft, RefreshCw, Sparkles, UploadCloud, ArrowDownToLine } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 
+const FILTERS = [
+  { id: 'none', name: 'Original', class: '' },
+  { id: 'grayscale(100%)', name: 'B&W', class: 'grayscale' },
+  { id: 'sepia(100%)', name: 'Vintage', class: 'sepia' },
+  { id: 'brightness(1.2) contrast(1.1)', name: 'Bright', class: 'brightness-125' },
+  { id: 'saturate(1.5)', name: 'Vibrant', class: 'saturate-150' },
+  { id: 'hue-rotate(300deg)', name: 'Pinky', class: 'hue-rotate-[300deg]' },
+];
+
 export default function PreviewPage() {
-  const { photos, setPhotos, selectedFrame } = usePhotoStore();
+  const { photos, setPhotos, selectedFrame, selectedFilter, setSelectedFilter } = usePhotoStore();
   const [isProcessing, setIsProcessing] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const router = useRouter();
@@ -65,7 +74,13 @@ export default function PreviewPage() {
             img.src = photos[i];
             await new Promise((res) => {
               img.onload = () => {
+                ctx.save();
+                // Apply filter to individual photo
+                if (selectedFilter !== 'none') {
+                  ctx.filter = selectedFilter;
+                }
                 ctx.drawImage(img, startX + (col * gapX), startY + (row * gapY), slotWidth, slotHeight);
+                ctx.restore();
                 res(true);
               };
             });
@@ -87,7 +102,10 @@ export default function PreviewPage() {
         img.src = photos[i];
         await new Promise((res) => {
           img.onload = () => {
+            ctx.save();
+            if (selectedFilter !== 'none') ctx.filter = selectedFilter;
             ctx.drawImage(img, padding, padding + (i * (imgHeight + 20)), imgWidth, imgHeight);
+            ctx.restore();
             res(true);
           };
         });
@@ -133,14 +151,20 @@ export default function PreviewPage() {
         <div className="w-12"></div>
       </header>
 
-      <div className="w-full max-w-5xl flex flex-col lg:flex-row gap-10 items-center justify-center">
-        <div className="relative group scale-90 md:scale-100">
+      <div className="w-full max-w-5xl flex flex-col lg:flex-row gap-8 lg:gap-12 items-start justify-center">
+        {/* Frame Preview Container */}
+        <div className="relative group scale-90 md:scale-100 mx-auto lg:mx-0 sticky top-10">
           {selectedFrame.imagePath ? (
             <div className="relative w-[280px] md:w-[320px] aspect-[2/3] glass rounded-2xl overflow-hidden shadow-2xl border-pink-200">
               <div className="absolute inset-0 grid grid-cols-2 grid-rows-3 gap-x-[7.5%] gap-y-[7.5%] p-[10%] pt-[14%] pb-[18%]">
                 {photos.map((src, i) => (
                   <div key={i} className="w-full h-full overflow-hidden rounded-lg bg-pink-100 shadow-inner">
-                    <img src={src} className="w-full h-full object-cover mirror" alt="" />
+                    <img 
+                      src={src} 
+                      className="w-full h-full object-cover mirror transition-all duration-300" 
+                      style={{ filter: selectedFilter !== 'none' ? selectedFilter : 'none' }}
+                      alt="" 
+                    />
                   </div>
                 ))}
               </div>
@@ -151,7 +175,12 @@ export default function PreviewPage() {
               <div className="flex flex-col gap-2">
                 {photos.map((src, i) => (
                   <div key={i} className="w-48 md:w-56 aspect-[4/3] bg-pink-100 overflow-hidden">
-                    <img src={src} className="w-full h-full object-cover mirror" alt="" />
+                    <img 
+                      src={src} 
+                      className="w-full h-full object-cover mirror" 
+                      style={{ filter: selectedFilter !== 'none' ? selectedFilter : 'none' }}
+                      alt="" 
+                    />
                   </div>
                 ))}
               </div>
@@ -159,15 +188,38 @@ export default function PreviewPage() {
           )}
         </div>
 
-        <div className="w-full max-w-sm">
+        {/* Controls Container */}
+        <div className="w-full max-w-sm space-y-8">
+          {/* Filter Selector */}
+          <div className="glass p-6 rounded-[2rem] border-pink-200 space-y-4">
+            <h3 className="text-[10px] font-black uppercase tracking-widest text-pink-900/60 italic">Select Filter</h3>
+            <div className="grid grid-cols-3 gap-3">
+              {FILTERS.map((f) => (
+                <button
+                  key={f.id}
+                  onClick={() => setSelectedFilter(f.id)}
+                  className={`flex flex-col items-center gap-2 p-2 rounded-2xl transition-all border-2 ${
+                    selectedFilter === f.id ? 'border-pink-500 bg-pink-100 shadow-sm' : 'border-transparent bg-pink-50/50 hover:bg-pink-50'
+                  }`}
+                >
+                  <div className={`w-12 h-12 rounded-xl bg-pink-200 overflow-hidden ${f.class}`}>
+                    <img src={photos[0]} className="w-full h-full object-cover mirror scale-150" alt="" />
+                  </div>
+                  <span className="text-[8px] font-black uppercase tracking-tighter text-pink-900/80">{f.name}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Export Options */}
           <div className="glass p-8 rounded-[2.5rem] space-y-6 border-pink-200 shadow-xl shadow-pink-900/5">
             <div className="space-y-2 text-center lg:text-left">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pink-200 text-pink-700 text-[8px] font-black uppercase tracking-widest border border-pink-300">
-                <Sparkles className="w-3 h-3 fill-pink-600" /> Processing Ready
+                <Sparkles className="w-3 h-3 fill-pink-600" /> Final Step
               </div>
-              <h2 className="text-2xl font-black tracking-tight text-[#2d1621]">Final Check</h2>
+              <h2 className="text-2xl font-black tracking-tight text-[#2d1621]">Looks Great!</h2>
               <p className="text-[#4a2c3a] text-xs font-bold leading-relaxed">
-                Everything looks perfect. Choose your export method below.
+                Choose your export method below.
               </p>
             </div>
 

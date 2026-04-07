@@ -159,30 +159,32 @@ export default function CameraView() {
         </div>
         
         {/* Responsive Grid Container */}
-        <div className="flex lg:grid lg:grid-cols-1 overflow-x-auto lg:overflow-visible gap-3 pb-4 lg:pb-0 scrollbar-hide">
+        <div className="flex lg:grid lg:grid-cols-2 overflow-x-auto lg:overflow-visible gap-2 md:gap-3 pb-4 lg:pb-0 scrollbar-hide bg-pink-50/50 p-3 rounded-[1.5rem] border border-pink-100">
           {Array.from({ length: maxSlots }).map((_, index) => (
             <div 
               key={index} 
               onClick={() => !isCapturing && tempPhotos[index] && setSelectedSlot(index === selectedSlot ? null : index)}
-              className={`relative flex-shrink-0 w-32 md:w-40 lg:w-full aspect-[4/3] rounded-2xl overflow-hidden border-2 transition-all duration-300 cursor-pointer group ${
+              className={`relative flex-shrink-0 w-24 md:w-28 lg:w-full aspect-[3/4] overflow-hidden transition-all duration-300 cursor-pointer group ${
+                selectedFrame?.id === 'swift-pink' ? 'rounded-t-full' : 'rounded-sm border-2 border-white shadow-sm'
+              } ${
                 selectedSlot === index 
-                ? 'border-pink-600 ring-4 ring-pink-500/30 scale-105 z-10 shadow-lg' 
+                ? 'ring-4 ring-pink-500 scale-105 z-10 shadow-lg' 
                 : tempPhotos[index] 
-                  ? 'border-pink-200 bg-white shadow-sm' 
-                  : 'border-dashed border-pink-300 bg-pink-100/20'
+                  ? 'bg-white' 
+                  : 'border-dashed border-pink-300 bg-pink-100/40'
               }`}
             >
               {tempPhotos[index] ? (
                 <>
                   <img src={tempPhotos[index]} alt="" className="w-full h-full object-cover mirror" />
                   <div className={`absolute inset-0 bg-pink-700/60 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-all ${selectedSlot === index ? 'opacity-100' : ''}`}>
-                    <RotateCcw className="w-5 h-5 text-white mb-1" />
+                    <RotateCcw className="w-4 h-4 text-white mb-1" />
                     <span className="text-[6px] font-black uppercase text-white tracking-widest">Retake</span>
                   </div>
                 </>
               ) : (
-                <div className="absolute inset-0 flex items-center justify-center text-[8px] font-black text-pink-300 uppercase italic">
-                  Slot {index + 1}
+                <div className="absolute inset-0 flex items-center justify-center text-[7px] font-black text-pink-300 uppercase italic">
+                  {index + 1}
                 </div>
               )}
             </div>
