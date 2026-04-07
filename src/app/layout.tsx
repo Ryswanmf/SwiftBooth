@@ -14,8 +14,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Modern Photobooth",
-  description: "Capture your moments in photostrip style",
+  title: "Cryswann Studio - Digital Photobooth",
+  description: "Capture your moments in elegant photostrip style",
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({

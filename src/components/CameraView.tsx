@@ -84,8 +84,8 @@ export default function CameraView() {
             ref={webcamRef}
             screenshotFormat="image/jpeg"
             videoConstraints={videoConstraints}
-            className="w-full h-full object-cover mirror"
-            mirrored={true}
+            className="w-full h-full object-cover"
+            mirrored={false}
           />
           
           {/* Viewfinder Corners - Smaller on mobile */}
