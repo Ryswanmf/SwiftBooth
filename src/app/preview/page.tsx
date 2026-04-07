@@ -51,19 +51,19 @@ export default function PreviewPage() {
 
           if (selectedFrame.id === 'swift-pink') {
             // Layout for 6 slots (Arch)
-            slotWidth = canvas.width * 0.385;
-            slotHeight = canvas.height * 0.205;
-            startX = canvas.width * 0.078;
-            startY = canvas.height * 0.11;
-            gapX = canvas.width * 0.46;
-            gapY = canvas.height * 0.282;
+            slotWidth = canvas.width * 0.38;
+            slotHeight = canvas.height * 0.20;
+            startX = canvas.width * 0.085;
+            startY = canvas.height * 0.13;
+            gapX = canvas.width * 0.45;
+            gapY = canvas.height * 0.27;
           } else if (selectedFrame.id === 'swift-pink-2') {
             // Layout for 4 slots (Polaroid)
             slotWidth = canvas.width * 0.40;
             slotHeight = canvas.height * 0.30;
-            startX = canvas.width * 0.065;
-            startY = canvas.height * 0.13;
-            gapX = canvas.width * 0.47;
+            startX = canvas.width * 0.075;
+            startY = canvas.height * 0.15;
+            gapX = canvas.width * 0.45;
             gapY = canvas.height * 0.34;
           }
 
@@ -75,11 +75,39 @@ export default function PreviewPage() {
             await new Promise((res) => {
               img.onload = () => {
                 ctx.save();
-                // Apply filter to individual photo
+                
+                // Set area for the slot
+                const dx = startX + (col * gapX);
+                const dy = startY + (row * gapY);
+                
+                // Create clipping path for the slot
+                ctx.beginPath();
+                ctx.rect(dx, dy, slotWidth, slotHeight);
+                ctx.clip();
+
+                // Apply filter
                 if (selectedFilter !== 'none') {
                   ctx.filter = selectedFilter;
                 }
-                ctx.drawImage(img, startX + (col * gapX), startY + (row * gapY), slotWidth, slotHeight);
+
+                // Image Cover Logic
+                const imgAspect = img.width / img.height;
+                const slotAspect = slotWidth / slotHeight;
+                let drawWidth, drawHeight, offsetX, offsetY;
+
+                if (imgAspect > slotAspect) {
+                  drawHeight = slotHeight;
+                  drawWidth = slotHeight * imgAspect;
+                  offsetX = dx - (drawWidth - slotWidth) / 2;
+                  offsetY = dy;
+                } else {
+                  drawWidth = slotWidth;
+                  drawHeight = slotWidth / imgAspect;
+                  offsetX = dx;
+                  offsetY = dy - (drawHeight - slotHeight) / 2;
+                }
+
+                ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
                 ctx.restore();
                 res(true);
               };
