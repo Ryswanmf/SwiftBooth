@@ -50,21 +50,21 @@ export default function PreviewPage() {
           let gapY = canvas.height * 0.282;
 
           if (selectedFrame.id === 'swift-pink') {
-            // Layout for 6 slots (Arch)
-            slotWidth = canvas.width * 0.38;
-            slotHeight = canvas.height * 0.20;
-            startX = canvas.width * 0.085;
-            startY = canvas.height * 0.13;
-            gapX = canvas.width * 0.45;
-            gapY = canvas.height * 0.27;
+            // Layout for 6 slots (Arch) - Lowered startY and adjusted gap
+            slotWidth = canvas.width * 0.385;
+            slotHeight = canvas.height * 0.205;
+            startX = canvas.width * 0.08;
+            startY = canvas.height * 0.145; // Moved down from 0.13
+            gapX = canvas.width * 0.455;
+            gapY = canvas.height * 0.275;
           } else if (selectedFrame.id === 'swift-pink-2') {
-            // Layout for 4 slots (Polaroid)
+            // Layout for 4 slots (Polaroid) - Lowered startY and adjusted gap
             slotWidth = canvas.width * 0.40;
             slotHeight = canvas.height * 0.30;
             startX = canvas.width * 0.075;
-            startY = canvas.height * 0.15;
+            startY = canvas.height * 0.165; // Moved down from 0.15
             gapX = canvas.width * 0.45;
-            gapY = canvas.height * 0.34;
+            gapY = canvas.height * 0.35;
           }
 
           for (let i = 0; i < photos.length; i++) {
