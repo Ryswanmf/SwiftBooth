@@ -6,8 +6,7 @@ import { usePhotoStore } from '@/hooks/usePhotoStore';
 import { Check, Layout, Sparkles, ChevronRight, Zap, Image as ImageIcon } from "lucide-react";
 
 const FRAMES = [
-  { id: 'swift-pink', name: 'Swift Pink Arch', color: '#ffb6c1', textColor: '#FFFFFF', imagePath: '/frames/swift-pink.png', slots: 6, tag: 'SPECIAL' },
-  { id: 'swift-pink-2', name: 'Swift Pink Polaroid', color: '#db7093', textColor: '#FFFFFF', imagePath: '/frames/swift-pink-2.png', slots: 4, tag: 'SPECIAL' },
+  { id: 'swift-pink', name: 'Swift Pink Polaroid', color: '#db7093', textColor: '#FFFFFF', imagePath: '/frames/swift-pink.png', slots: 6, tag: 'SPECIAL' },
 ];
 
 export default function Home() {
