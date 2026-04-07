@@ -1,4 +1,4 @@
-# Cryswann Studio - Digital Photobooth
+# Swift Studio - Digital Photobooth
 
 ![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js)
 ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
@@ -6,7 +6,7 @@
 ![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)
 ![Lucide React](https://img.shields.io/badge/Lucide_React-pink?style=for-the-badge&logo=lucide)
 
-Cryswann Studio adalah aplikasi photobooth berbasis web yang dirancang dengan estetika Soft Pink yang elegan. Aplikasi ini memungkinkan pengguna untuk menangkap momen spesial mereka secara digital dengan berbagai pilihan frame unik dan filter artistik.
+Swift Studio adalah aplikasi photobooth berbasis web yang dirancang dengan estetika Soft Pink yang elegan. Aplikasi ini memungkinkan pengguna untuk menangkap momen spesial mereka secara digital dengan berbagai pilihan frame unik dan filter artistik.
 
 ---
 
