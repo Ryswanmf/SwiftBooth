@@ -104,9 +104,9 @@ export default function PreviewPage() {
   };
 
   return (
-    <div className="min-h-screen p-6 md:p-8 flex flex-col items-center bg-[#020617]">
+    <div className="min-h-screen p-6 md:p-8 flex flex-col items-center bg-[#fff5f7]">
       <header className="w-full max-w-5xl flex items-center justify-between mb-8">
-        <button onClick={() => router.back()} className="flex items-center gap-2 text-slate-500 hover:text-white text-[10px] font-black uppercase tracking-widest transition-colors">
+        <button onClick={() => router.back()} className="flex items-center gap-2 text-pink-900/60 hover:text-pink-700 text-[10px] font-black uppercase tracking-widest transition-colors">
           <ChevronLeft className="w-4 h-4" /> Back
         </button>
         <h1 className="text-lg font-black italic tracking-tighter text-gradient uppercase">Preview</h1>
@@ -116,10 +116,10 @@ export default function PreviewPage() {
       <div className="w-full max-w-5xl flex flex-col lg:flex-row gap-10 items-center justify-center">
         <div className="relative group scale-90 md:scale-100">
           {selectedFrame.imagePath ? (
-            <div className="relative w-[280px] md:w-[320px] aspect-[2/3] glass rounded-2xl overflow-hidden shadow-2xl">
+            <div className="relative w-[280px] md:w-[320px] aspect-[2/3] glass rounded-2xl overflow-hidden shadow-2xl border-pink-200">
               <div className="absolute inset-0 grid grid-cols-2 grid-rows-3 gap-x-[7.5%] gap-y-[7.5%] p-[10%] pt-[14%] pb-[18%]">
                 {photos.map((src, i) => (
-                  <div key={i} className="w-full h-full overflow-hidden rounded-lg bg-slate-900 shadow-inner">
+                  <div key={i} className="w-full h-full overflow-hidden rounded-lg bg-pink-100 shadow-inner">
                     <img src={src} className="w-full h-full object-cover mirror" alt="" />
                   </div>
                 ))}
@@ -130,7 +130,7 @@ export default function PreviewPage() {
             <div className="p-4 shadow-2xl rounded-sm" style={{ backgroundColor: selectedFrame.color }}>
               <div className="flex flex-col gap-2">
                 {photos.map((src, i) => (
-                  <div key={i} className="w-48 md:w-56 aspect-[4/3] bg-slate-900 overflow-hidden">
+                  <div key={i} className="w-48 md:w-56 aspect-[4/3] bg-pink-100 overflow-hidden">
                     <img src={src} className="w-full h-full object-cover mirror" alt="" />
                   </div>
                 ))}
@@ -140,23 +140,23 @@ export default function PreviewPage() {
         </div>
 
         <div className="w-full max-w-sm">
-          <div className="glass p-8 rounded-[2.5rem] space-y-6 border-white/5">
+          <div className="glass p-8 rounded-[2.5rem] space-y-6 border-pink-200 shadow-xl shadow-pink-900/5">
             <div className="space-y-2 text-center lg:text-left">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 text-[8px] font-black uppercase tracking-widest">
-                <Sparkles className="w-3 h-3" /> Processing Ready
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pink-200 text-pink-700 text-[8px] font-black uppercase tracking-widest border border-pink-300">
+                <Sparkles className="w-3 h-3 fill-pink-600" /> Processing Ready
               </div>
-              <h2 className="text-2xl font-black tracking-tight">Final Check</h2>
-              <p className="text-slate-500 text-xs font-medium leading-relaxed">
+              <h2 className="text-2xl font-black tracking-tight text-[#2d1621]">Final Check</h2>
+              <p className="text-[#4a2c3a] text-xs font-bold leading-relaxed">
                 Everything looks perfect. Choose your export method below.
               </p>
             </div>
 
             <div className="space-y-3">
-              <button onClick={() => handleExport(true)} disabled={isProcessing} className="w-full bg-white text-slate-950 py-4 rounded-2xl font-black text-sm tracking-tight hover:scale-[1.02] transition-all disabled:opacity-50 flex items-center justify-center gap-3">
+              <button onClick={() => handleExport(true)} disabled={isProcessing} className="w-full bg-[#2d1621] text-white py-4 rounded-2xl font-black text-sm tracking-tight hover:scale-[1.02] transition-all disabled:opacity-50 flex items-center justify-center gap-3 shadow-lg shadow-pink-900/20">
                 {isProcessing ? <RefreshCw className="w-4 h-4 animate-spin" /> : <UploadCloud className="w-4 h-4" />}
                 SAVE TO CLOUD
               </button>
-              <button onClick={() => handleExport(false)} disabled={isProcessing} className="w-full glass text-white py-4 rounded-2xl font-black text-xs tracking-widest hover:bg-white/5 transition-all flex items-center justify-center gap-3">
+              <button onClick={() => handleExport(false)} disabled={isProcessing} className="w-full bg-white border-2 border-pink-200 text-pink-700 py-4 rounded-2xl font-black text-xs tracking-widest hover:bg-pink-50 transition-all flex items-center justify-center gap-3 shadow-sm">
                 <ArrowDownToLine className="w-4 h-4" /> DOWNLOAD LOCALLY
               </button>
             </div>

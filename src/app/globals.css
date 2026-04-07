@@ -4,26 +4,29 @@
 
 @layer base {
   :root {
-    --background: 222 47% 4%;
-    --foreground: 210 40% 98%;
+    --background: 350 100% 98%;
+    --foreground: 340 30% 15%;
+    --primary: 345 75% 60%;
+    --secondary: 350 40% 92%;
+    --accent: 345 50% 30%;
   }
   body {
-    @apply bg-[#020617] text-slate-200 antialiased overflow-x-hidden text-sm;
+    @apply bg-[#fff5f7] text-[#3d202d] antialiased overflow-x-hidden text-sm;
     background-image: 
-      radial-gradient(at 0% 0%, rgba(30, 58, 138, 0.15) 0px, transparent 40%),
-      radial-gradient(at 100% 0%, rgba(190, 24, 93, 0.08) 0px, transparent 40%);
+      radial-gradient(at 0% 0%, rgba(244, 114, 182, 0.15) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, rgba(219, 39, 119, 0.1) 0px, transparent 50%);
   }
 }
 
 @layer utilities {
   .glass {
-    @apply bg-white/[0.03] backdrop-blur-xl border border-white/10 shadow-2xl;
+    @apply bg-white/60 backdrop-blur-xl border border-pink-200/50 shadow-xl;
   }
   .glass-card {
-    @apply bg-slate-950/20 backdrop-blur-lg border border-white/5 hover:border-white/10 transition-all duration-300;
+    @apply bg-white/80 backdrop-blur-lg border border-pink-200/60 hover:border-pink-300/80 transition-all duration-300 shadow-sm hover:shadow-md;
   }
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-br from-white via-slate-200 to-slate-400;
+    @apply bg-clip-text text-transparent bg-gradient-to-br from-[#be185d] via-[#db2777] to-[#f472b6];
   }
   .mirror {
     transform: scaleX(-1);
