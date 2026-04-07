@@ -31,12 +31,32 @@ export default function PreviewPage() {
         frameImg.onload = async () => {
           canvas.width = frameImg.width;
           canvas.height = frameImg.height;
-          const slotWidth = canvas.width * 0.385;
-          const slotHeight = canvas.height * 0.205;
-          const startX = canvas.width * 0.078;
-          const startY = canvas.height * 0.11;
-          const gapX = canvas.width * 0.46;
-          const gapY = canvas.height * 0.282;
+          
+          // Default values (will be overridden per frame)
+          let slotWidth = canvas.width * 0.385;
+          let slotHeight = canvas.height * 0.205;
+          let startX = canvas.width * 0.078;
+          let startY = canvas.height * 0.11;
+          let gapX = canvas.width * 0.46;
+          let gapY = canvas.height * 0.282;
+
+          if (selectedFrame.id === 'swift-pink') {
+            // Layout for 6 slots (Arch)
+            slotWidth = canvas.width * 0.385;
+            slotHeight = canvas.height * 0.205;
+            startX = canvas.width * 0.078;
+            startY = canvas.height * 0.11;
+            gapX = canvas.width * 0.46;
+            gapY = canvas.height * 0.282;
+          } else if (selectedFrame.id === 'swift-pink-2') {
+            // Layout for 4 slots (Polaroid)
+            slotWidth = canvas.width * 0.40;
+            slotHeight = canvas.height * 0.30;
+            startX = canvas.width * 0.065;
+            startY = canvas.height * 0.13;
+            gapX = canvas.width * 0.47;
+            gapY = canvas.height * 0.34;
+          }
 
           for (let i = 0; i < photos.length; i++) {
             const col = i % 2;

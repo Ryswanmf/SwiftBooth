@@ -6,9 +6,8 @@ import { usePhotoStore } from '@/hooks/usePhotoStore';
 import { Check, Layout, Sparkles, ChevronRight, Zap, Image as ImageIcon } from "lucide-react";
 
 const FRAMES = [
-  { id: 'pink-swift', name: 'Swiftboth Pink', color: '#db7093', textColor: '#FFFFFF', imagePath: '/frames/pink.png', slots: 6, tag: 'SPECIAL' },
-  { id: 'white', name: 'Classic White', color: '#F8FAFC', textColor: '#0F172A', slots: 4, tag: 'BASIC' },
-  { id: 'navy', name: 'Deep Midnight', color: '#1E293B', textColor: '#F1F5F9', slots: 4, tag: 'PREMIUM' },
+  { id: 'swift-pink', name: 'Swift Pink Arch', color: '#ffb6c1', textColor: '#FFFFFF', imagePath: '/frames/swift-pink.png', slots: 6, tag: 'SPECIAL' },
+  { id: 'swift-pink-2', name: 'Swift Pink Polaroid', color: '#db7093', textColor: '#FFFFFF', imagePath: '/frames/swift-pink-2.png', slots: 4, tag: 'SPECIAL' },
 ];
 
 export default function Home() {
@@ -46,7 +45,7 @@ export default function Home() {
           <section className="space-y-4">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-pink-100 border border-pink-300 text-pink-700 text-[9px] font-black uppercase tracking-[0.2em]">
               <Sparkles className="w-3 h-3 fill-pink-600" />
-              Swith Studio.
+              Cryswann Studio.
             </div>
             <h2 className="text-5xl md:text-7xl font-black tracking-tighter leading-none text-gradient">
               Capture <br /> Your Moment.
@@ -58,41 +57,41 @@ export default function Home() {
 
           <section className="w-full max-w-4xl space-y-8">
             <h3 className="text-xs font-black uppercase tracking-[0.3em] text-pink-900/70">Select Template</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full px-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 w-full px-4">
               {FRAMES.map((frame) => (
                 <button
                   key={frame.id}
                   onClick={() => setSelectedFrame(frame)}
-                  className={`group relative flex flex-col p-2 rounded-[2rem] transition-all duration-300 ${
+                  className={`group relative flex flex-col p-1.5 md:p-2 rounded-[1.5rem] md:rounded-[2rem] transition-all duration-300 ${
                     selectedFrame?.id === frame.id 
                     ? 'glass-card bg-white scale-105 border-pink-500 shadow-xl shadow-pink-300/30' 
                     : 'glass-card hover:scale-[1.02] border-pink-100'
                   }`}
                 >
-                  <div className={`absolute top-4 right-4 z-20 px-2 py-0.5 rounded-full text-[7px] font-black tracking-widest uppercase ${selectedFrame?.id === frame.id ? 'bg-pink-600 text-white' : 'bg-pink-100 text-pink-600'}`}>
+                  <div className={`absolute top-3 right-3 z-20 px-1.5 py-0.5 rounded-full text-[6px] md:text-[7px] font-black tracking-widest uppercase ${selectedFrame?.id === frame.id ? 'bg-pink-600 text-white' : 'bg-pink-100 text-pink-600'}`}>
                     {frame.tag}
                   </div>
 
                   <div 
-                    className="w-full aspect-[4/5] rounded-[1.5rem] shadow-xl mb-4 relative overflow-hidden flex flex-col items-center justify-end pb-4"
+                    className="w-full aspect-[3/4] md:aspect-[4/5] rounded-[1rem] md:rounded-[1.5rem] shadow-lg mb-3 md:mb-4 relative overflow-hidden flex flex-col items-center justify-end pb-3"
                     style={{ backgroundColor: frame.color }}
                   >
                     {frame.imagePath ? (
                       <img src={frame.imagePath} alt={frame.name} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                     ) : (
-                      <ImageIcon className="w-12 h-12 opacity-5 absolute inset-0 m-auto" />
+                      <ImageIcon className="w-10 h-10 opacity-5 absolute inset-0 m-auto" />
                     )}
-                    <span className="relative z-10 text-[8px] font-black tracking-widest uppercase bg-black/40 px-4 py-1.5 rounded-full text-white backdrop-blur-md border border-white/20">
+                    <span className="relative z-10 text-[7px] md:text-[8px] font-black tracking-widest uppercase bg-black/40 px-3 py-1 rounded-full text-white backdrop-blur-md border border-white/20">
                       Preview
                     </span>
                   </div>
-                  <div className="px-4 pb-2 flex items-center justify-between w-full">
+                  <div className="px-2 md:px-4 pb-1 md:pb-2 flex items-center justify-between w-full">
                     <div className="text-left">
-                      <span className="block text-[8px] text-pink-900/60 font-black uppercase tracking-widest mb-0.5">{frame.slots} Shots</span>
-                      <span className="font-bold text-sm tracking-tight text-[#3d202d]">{frame.name}</span>
+                      <span className="block text-[7px] md:text-[8px] text-pink-900/60 font-black uppercase tracking-widest mb-0.5">{frame.slots} Shots</span>
+                      <span className="font-bold text-[10px] md:text-sm tracking-tight text-[#3d202d] truncate max-w-[80px] md:max-w-none">{frame.name}</span>
                     </div>
                     {selectedFrame?.id === frame.id && (
-                      <Check className="w-4 h-4 text-pink-600" />
+                      <Check className="w-3 h-3 md:w-4 md:h-4 text-pink-600" />
                     )}
                   </div>
                 </button>

@@ -114,27 +114,29 @@ export default function CameraView() {
             <button
               onClick={startCountdown}
               disabled={isCapturing}
-              className={`w-full md:w-auto group flex items-center justify-center gap-3 px-10 py-5 rounded-2xl md:rounded-full text-lg font-black transition-all transform active:scale-95 ${
+              className={`w-full md:w-auto group flex items-center justify-center gap-4 px-12 py-6 rounded-2xl md:rounded-full text-xl font-black transition-all transform active:scale-95 border-b-4 ${
                 isCapturing 
-                ? 'bg-pink-100 text-pink-300 cursor-not-allowed' 
-                : 'bg-[#4a2c3a] text-white shadow-2xl shadow-pink-900/20'
+                ? 'bg-pink-100 text-pink-400 border-pink-200 cursor-not-allowed' 
+                : 'bg-[#be185d] text-white border-[#831843] shadow-[0_15px_30px_rgba(190,24,93,0.4)] hover:bg-[#9d174d] hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(190,24,93,0.5)]'
               }`}
             >
-              {isCapturing ? <RefreshCw className="w-5 h-5 animate-spin" /> : <Camera className="w-5 h-5" />}
-              {isCapturing 
-                ? `READY...` 
-                : selectedSlot !== null 
-                  ? `RETAKE SHOT ${selectedSlot + 1}` 
-                  : `TAKE SHOT ${tempPhotos.length + 1}`}
+              {isCapturing ? <RefreshCw className="w-6 h-6 animate-spin" /> : <Camera className="w-6 h-6 fill-white/20" />}
+              <span className="tracking-tight">
+                {isCapturing 
+                  ? `GET READY...` 
+                  : selectedSlot !== null 
+                    ? `RETAKE SHOT ${selectedSlot + 1}` 
+                    : `TAKE SHOT ${tempPhotos.length + 1}`}
+              </span>
             </button>
           ) : (
             <button
               onClick={handleDone}
-              className="w-full md:w-auto group flex items-center justify-center gap-3 px-10 py-5 rounded-2xl md:rounded-full text-lg font-black bg-gradient-to-r from-pink-600 to-rose-500 text-white shadow-xl active:scale-95 transition-all"
+              className="w-full md:w-auto group flex items-center justify-center gap-4 px-12 py-6 rounded-2xl md:rounded-full text-xl font-black bg-[#1a0f14] text-white shadow-2xl shadow-pink-950/40 active:scale-95 transition-all hover:bg-black border-b-4 border-black"
             >
-              <CheckCircle2 className="w-5 h-5" />
+              <CheckCircle2 className="w-6 h-6 text-green-400" />
               FINALIZE SESSION
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform" />
             </button>
           )}
 
